@@ -1,8 +1,8 @@
 import json
-import string
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+from string import hexdigits
 
 
 class MemairError(Exception):
@@ -20,9 +20,8 @@ class Memair(object):
       raise MemairError('access_token should be string.')
     if len(access_token) != 64:
       raise MemairError(f'access_token wrong length. access_token should be 64 characters, supplied access_token was {len(access_token)} characters.')
-    if not all(c in string.hexdigits for c in access_token):
+    if not all(c in hexdigits for c in access_token):
       raise MemairError('access_token is not hexdigits.')
-
 
   def __requests_retry_session(
     retries=3,
