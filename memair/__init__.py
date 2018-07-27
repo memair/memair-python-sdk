@@ -23,26 +23,24 @@ class Memair(object):
     if not all(c in hexdigits for c in access_token):
       raise MemairError('access_token is not hexdigits.')
 
-  def __requests_retry_session(
-    retries=3,
-    backoff_factor=0.3,
-    status_forcelist=(500, 502, 504),
-  ):
+  def __requests_retry_session(self):
+    retries = 3
+    backoff_factor = 0.3
     session = requests.Session()
     retry = Retry(
-      total=retries,
-      read=retries,
-      connect=retries,
-      backoff_factor=backoff_factor,
-      status_forcelist=status_forcelist,
+      total            = retries,
+      read             = retries,
+      connect          = retries,
+      backoff_factor   = backoff_factor,
+      status_forcelist = (500, 502, 504),
     )
-    adapter = HTTPAdapter(max_retries=retry)
+    adapter = HTTPAdapter(max_retries = retry)
     session.mount('https://', adapter)
     return session
 
   def query(self, query):
     data = {
-      'query' : query,
+      'query': query,
       'access_token': self.access_token
     }
     r = self.__requests_retry_session().post("https://memair.com/graphql", data)
