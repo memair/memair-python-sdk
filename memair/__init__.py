@@ -25,10 +25,9 @@ class Memair(object):
     if not all(c in hexdigits for c in access_token):
       raise MemairError('access_token is not hexdigits.')
 
-  def __retry_if_connection_error(exception):
-    return isinstance(exception, requests.exceptions.ConnectionError) or isinstance(exception, ConnectionResetError)
+  def retry_if_connection_error(exception):
+    return isinstance(exception, requests.exceptions.ConnectionError)
 
-  @retry(retry_on_exception=__retry_if_connection_error, wait_exponential_multiplier=1000, stop_max_attempt_number=10)
   def __requests_retry_session(self):
     retries = 10
     backoff_factor = 5
@@ -44,6 +43,7 @@ class Memair(object):
     session.mount('https://', adapter)
     return session
 
+  @retry(retry_on_exception=retry_if_connection_error, wait_exponential_multiplier=1000, stop_max_attempt_number=10)
   def query(self, query):
     data = {
       'query': query,
