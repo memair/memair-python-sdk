@@ -25,8 +25,8 @@ class Memair(object):
       raise MemairError('access_token is not hexdigits.')
 
   def __requests_retry_session(self):
-    retries = 3
-    backoff_factor = 0.3
+    retries = 10
+    backoff_factor = 5
     session = requests.Session()
     retry = Retry(
       total            = retries,
