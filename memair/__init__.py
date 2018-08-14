@@ -33,7 +33,7 @@ class Memair(object):
       read             = retries,
       connect          = retries,
       backoff_factor   = backoff_factor,
-      status_forcelist = (500, 502, 504),
+      status_forcelist = [500, 502, 503, 504],
     )
     adapter = HTTPAdapter(max_retries = retry)
     session.mount('https://', adapter)
