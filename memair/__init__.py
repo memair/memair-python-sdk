@@ -26,7 +26,7 @@ class Memair(object):
       raise MemairError('access_token is not hexdigits.')
 
   def retry_if_connection_error(exception):
-    return isinstance(exception, requests.exceptions.ConnectionError)
+    return isinstance(exception, requests.exceptions.ConnectionError) or isinstance(exception, json.decoder.JSONDecodeError)
 
   def __requests_retry_session(self):
     retries = 10
