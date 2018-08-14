@@ -3,6 +3,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from string import hexdigits
+from retrying import retry
 
 
 class MemairError(Exception):
@@ -24,6 +25,10 @@ class Memair(object):
     if not all(c in hexdigits for c in access_token):
       raise MemairError('access_token is not hexdigits.')
 
+  def __retry_if_connection_error(exception):
+    return isinstance(exception, requests.exceptions.ConnectionError)
+
+  @retry(retry_on_exception=__retry_if_connection_error, wait_exponential_multiplier=1000, stop_max_attempt_number=10)
   def __requests_retry_session(self):
     retries = 10
     backoff_factor = 5

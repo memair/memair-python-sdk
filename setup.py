@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
   name='memair',
-  version='2018.08.14.1',
+  version='2018.08.14.2',
   description='SDK for Memair',
   long_description=open('README.rst').read(),
   url='https://github.com/memair/memair-python-sdk',
@@ -18,7 +18,7 @@ setup(
   ],
   keywords='memair, quantified self, extended mind, lifelogging',
   packages=find_packages(),
-  install_requires=['requests'],
+  install_requires=['requests', 'retrying'],
   package_data={
     'memair': []
   }
