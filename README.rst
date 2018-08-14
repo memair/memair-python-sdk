@@ -45,14 +45,24 @@ Basic usage
 
 `Generate a temporary access token <https://memair.com/generate_own_access_token>`__
 
+`Validate GraphQL with GraphiQL <https://memair.com/graphiql>`__
+
 ::
 
     >>> from memair import Memair
-    >>> api_key = 'abcdefghijklmnopqrstuvwxy01234567'
+    >>> api_key = '0000000000000000000000000000000000000000000000000000000000000000'
     >>> user = Memair(api_key)
-    >>> latest_location = user.query('{Locations(first: 1, order: timestamp_desc) {id lat lon timestamp updated_at}}')
-    >>> latest_location['data']['Locations']
-    [{'id': '12528740', 'lat': 42.909056, 'lon': -74.572508, 'timestamp': '2018-07-27T22:27:21Z', 'updated_at': '2018-07-27T22:28:22Z'}]
+    >>> latest_location = user.query('''
+            {
+                Locations(first: 1, order: timestamp_desc) {
+                lat
+                lon
+                timestamp
+              }
+            }
+        ''')
+    >>> latest_location['data']['Locations'][0]
+    {'lat': 42.909056, 'lon': -74.572508, 'timestamp': '2018-07-27T22:27:21Z'}
 
 
 

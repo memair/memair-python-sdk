@@ -8,6 +8,7 @@ from string import hexdigits
 class MemairError(Exception):
   pass
 
+
 class Memair(object):
   def __init__(self, access_token):
     self.__validate_access_token(access_token)
