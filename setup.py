@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
   name='memair',
-  version='2018.08.19.0',
+  version='0.1',
   description='SDK for Memair',
   long_description=open('README.rst').read(),
   url='https://github.com/memair/memair-python-sdk',
