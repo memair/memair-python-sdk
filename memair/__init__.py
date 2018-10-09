@@ -3,7 +3,6 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from string import hexdigits
-from retrying import retry
 
 
 class MemairError(Exception):
@@ -43,7 +42,6 @@ class Memair(object):
     session.mount('https://', adapter)
     return session
 
-  @retry(retry_on_exception=retry_if_connection_error, wait_exponential_multiplier=1000, stop_max_attempt_number=10)
   def query(self, query):
     data = {
       'query': query,
