@@ -19,7 +19,7 @@ SDK for simple interaction with the Memair APIs
 Interactive Notebook
 --------------------
 
-Explore this package in an  `Interactive Notebook <https://mybinder.org/v2/gh/memair/memair-python-sdk/jupyter>`__
+Explore this package in an  `Interactive Notebook <https://mybinder.org/v2/gh/memair/jupyter/master>`__
 
 .. image:: https://user-images.githubusercontent.com/1595448/47387817-6b88a080-d6de-11e8-822d-ddd4f83fbd9b.png
          :width: 80%
