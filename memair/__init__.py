@@ -2,7 +2,6 @@ import json
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-from string import hexdigits
 
 
 class MemairError(Exception):
@@ -19,10 +18,8 @@ class Memair(object):
       raise MemairError('access_token not supplied. Visit https://memair.com/generate_own_access_token to generate a temporary access token or see the https://docs.memair.com')
     if not isinstance(access_token, str):
       raise MemairError('access_token should be string.')
-    if len(access_token) != 64:
-      raise MemairError(f'access_token wrong length. access_token should be 64 characters, supplied access_token was {len(access_token)} characters.')
-    if not all(c in hexdigits for c in access_token):
-      raise MemairError('access_token is not hexdigits.')
+    if len(access_token) not in [43, 64]:
+      raise MemairError(f'access_token wrong length. access_token should be either a 64 length hex string or a 43 length base64 string, supplied access_token was {len(access_token)} characters.')
 
   def retry_if_connection_error(exception):
     return isinstance(exception, requests.exceptions.ConnectionError) or isinstance(exception, json.decoder.JSONDecodeError)
