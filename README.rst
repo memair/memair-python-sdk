@@ -74,7 +74,19 @@ Basic usage
     >>> latest_location['data']['Locations'][0]
     {'lat': 42.909056, 'lon': -74.572508, 'timestamp': '2018-07-27T22:27:21Z'}
 
+Memair DNS tools
+----------------
 
+This package also includes a method to check if Memair DNS is blocked on specific dates
+
+::
+
+    >>> from memair import is_dns_blocked
+    >>> from datetime import date
+    >>> is_dns_blocked(date(2019,1,9))
+    True
+    >>> is_dns_blocked(date(2019,1,10))
+    False
 
 Running Test
 ------------

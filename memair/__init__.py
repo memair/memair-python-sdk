@@ -1,7 +1,9 @@
 import json
 import requests
+import hashlib
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+from datetime import datetime, timedelta, date
 
 
 class MemairError(Exception):
@@ -46,3 +48,26 @@ class Memair(object):
     }
     r = self.__requests_retry_session().post("https://memair.com/graphql", data)
     return json.loads(r.text)
+
+
+def is_dns_blocked(date):
+  salt = 'dns.memair.com'
+  start_date = datetime(2019,1,1).date()
+  state_change_count = 0
+
+  delta = date - start_date
+
+  for i in range(delta.days + 1):
+    date         = start_date + timedelta(i)
+    change_state = __state_should_change(date, salt)
+
+    if change_state:
+      state_change_count += 1
+
+  return state_change_count % 2 != 0
+
+
+def __state_should_change(date, salt):
+  salted_date_string = (date.strftime('%Y-%m-%d') + salt).encode('utf-8')
+  salted_date_hex = hashlib.md5(salted_date_string).hexdigest()
+  return int(salted_date_hex[-1], 16) % 4 == 0

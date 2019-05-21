@@ -1,8 +1,9 @@
 import unittest
 from vcr_unittest import VCRTestCase
 from random import shuffle
+from datetime import date
 
-from memair import Memair, MemairError
+from memair import Memair, MemairError, is_dns_blocked
 
 class TestMemair(VCRTestCase):
 
@@ -34,6 +35,18 @@ class TestMemair(VCRTestCase):
 
     self.assertTrue(len(biometric_types), 4)
     self.assertTrue(biometric_types[0]['slug'], 'diastolic_pressure')
+
+  def test_is_dns_blocked(self):
+    self.assertTrue(is_dns_blocked(date(2019,1,9)))
+    self.assertFalse(is_dns_blocked(date(2019,1,10)))
+    self.assertFalse(is_dns_blocked(date(2019,1,11)))
+    self.assertTrue(is_dns_blocked(date(2019,1,12)))
+
+    self.assertTrue(is_dns_blocked(date(2019,5,6)))
+    self.assertFalse(is_dns_blocked(date(2019,5,7)))
+    self.assertTrue(is_dns_blocked(date(2019,5,8)))
+    self.assertFalse(is_dns_blocked(date(2019,5,9)))
+    self.assertTrue(is_dns_blocked(date(2019,5,10)))
 
 
 if __name__ == '__main__':
